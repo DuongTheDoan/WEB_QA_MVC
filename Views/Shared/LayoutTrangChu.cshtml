@@ -1,0 +1,114 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Home</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='~/Frontend/Css/Home.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Custom fonts for this template -->
+    <link href="~/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="~/Admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    @*import file Header.cshtml vao day*@
+    @Html.Partial("~/Views/Shared/Header.cshtml")
+    <!-- main -->
+    <main id="main">
+        @RenderBody()
+    </main>
+
+    <!-- footer -->
+
+    <footer class="footer">
+
+        <div class="footer-top ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-12">
+
+                        <div class="single-footer about">
+                            <div class="logo">
+                                <a href=""><img src="~/Frontend/images/logo2.png" alt="#" width="30%"></a>
+                            </div>
+                            <p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+                            <p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">+0123 456 789</a></span></p>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+
+                        <div class="single-footer links">
+                            <h4>Information</h4>
+                            <ul>
+                                <li><a href="">About Us</a></li>
+                                <li><a href="#">Faq</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+
+                        <div class="single-footer links">
+                            <h4>Customer Service</h4>
+                            <ul>
+                                <li><a href="">Payment Methods</a></li>
+                                <li><a href="">Money-back</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+
+                        <div class="single-footer social">
+                            <h4>Get In Tuch</h4>
+
+                            <div class="contact">
+                                <ul>
+                                    <li>NO. 342 -  Phu Binh Thai Nguyen .</li>
+                                    <li>084 United Kingdom.</li>
+                                    <li>info@eshop.com</li>
+                                    <li>+0123888888</li>
+                                </ul>
+                            </div>
+
+                            <ul>
+                                <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-flickr"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  -->
+   
+@*     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ *@    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

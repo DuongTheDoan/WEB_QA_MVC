@@ -1,0 +1,273 @@
+﻿@using Project.Models
+
+@using Newtonsoft.Json
+
+
+<header class="header-shop " id="header">
+    <div class="topbar-menu-area">
+        <div class="container">
+            <div class="row">
+                <div class="topbar-menu left-menu col-sm-6 col-12" >
+                    <ul>
+                        <li class="menu-item">
+                            <a title="Hotline: (+123) 456 789" href="#"><span class="icon label-before fa fa-mobile"></span>Hotline: (+123) 456 789</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="topbar-menu right-menu col-sm-6 col-12">
+                    <ul>
+                        @if (String.IsNullOrEmpty(Context.Session.GetString("customer_email")))
+                        {
+                            <li class="menu-item" style="margin-left:450px"><a title="Register or Login" href="/Account/Login">Login</a></li>
+                            <li class="menu-item"><a title="Register or Login" href="/Account/Register">Register</a></li>
+                        }
+                        else
+                        {
+                            <li class="menu-item"><a title="Register or Login" href="#">Xin chào @Context.Session.GetString("customer_email")</a></li>
+                            <li class="menu-item"><a title="Đơn hàng " href="/Account/Orders">Đơn hàng của tôi</a></li>
+                            <li class="menu-item"><a title="Register or Login" href="/Account/Logout">Logout</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="middle-inner">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-2 col-md-2 col-12 ">
+                    <img src="~/Frontend/images/logo.png" width="100%">
+
+                </div>
+                <div class="col-lg-8 col-md-7 col-12 header-search">
+                    <!-- <div class="list-category">
+                        <div class="hovered">All Category</div>
+                        <div class="sub_menu"><a href="E:\BTCK\Fontend\Categories.html">E:\BTCK\Fontend\Categories.html</a>
+                        <ul><a href="E:\BTCK\Fontend\Categories.html">E:\BTCK\Fontend\Categories.html</a>
+                            <li>
+                                All Category
+                            </li>
+                            <li>
+                               Watch
+                            </li>
+                            <li>
+                                Mobile
+                            </li>
+                            <li>
+                                All Category
+                            </li>
+                        </ul>
+                      </div>
+                    </div> -->
+                    <div class="dropdown list-category ">
+                        <button class="btn btn-secondary dropdown-toggle  " style="background-color: #ffff;color: #333; border: 1px solid #C0C0C0;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            All Categories
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">All Categories </a>
+                            <a class="dropdown-item" href="#">Watch</a>
+                            <a class="dropdown-item" href="#">Mobile</a>
+                            <a class="dropdown-item" href="#">Kids</a>
+                        </div>
+                    </div>
+                    <div class="form-inline ">
+                        <div class="wrap-search-form">
+                            <input class="form-control mr-sm-2" type="text" onkeyup="Search();" autocomplete="off" name="search" id="key" value="" placeholder="Search here...">
+
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" form="form-search-top" onclick="location.href='/Products/SearchName?key='+document.getElementById('key').value;">Search</button>
+                           
+                            <div id="smart-search">
+                                <ul>
+                                   @*  <li><a href=""><img src="http://localhost:5137/Upload/Products/133440996948225955_tshirtxcool-13-copy_65.jpg" />product 1</a></li>
+                                     <li><a href=""><img src="http://localhost:5137/Upload/Products/133440996948225955_tshirtxcool-13-copy_65.jpg" />product 1</a></li>
+                                     <li><a href=""><img src="http://localhost:5137/Upload/Products/133440996948225955_tshirtxcool-13-copy_65.jpg" />product 1</a></li>
+                                   *@
+
+                                </ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <style>
+                        /*đặt cha làm điểm tựa để id="smart-search" căn theo*/
+                        .wrap-search-form {
+                            position: relative;
+                        }
+                        /*con căn theo điểm tựa bên ngoài*/
+                        #smart-search {
+                            position: absolute;
+                            width: 300px;
+                            background: white;
+                            z-index: 100;
+                            top: 50px;
+                            display: none;
+                            height: 200px;
+                            overflow: scroll;
+                        }
+
+                            #smart-search img {
+                                width: 70px;
+                                margin-right: 5px;
+                            }
+
+                            #smart-search ul {
+                                padding: 0px;
+                                margin: 0px;
+                                list-style: none;
+                                text-align: left;
+                            }
+
+                                #smart-search ul li {
+                                    border-bottom: 1px solid #dddddd;
+                                }
+                    </style>
+                
+                        
+
+                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+              @*       <script>
+                        $(document).ready(function () {
+                            // đoạn code sử dụng jQuery
+                            alert('hi')
+                        });
+                    </script> *@
+                    <script>
+                        //phải kiểm xem jquery đã load được vào trang chưa, nếu chưa thì phải load jquery (vì sử dụng jquery ajax)
+                       //$(document).ready(function(){ alert('ok'); });
+                       
+                        function Search() {
+                            var key = document.getElementById("key").value;
+                            if (key != '') 
+                            {
+                                //hiển thị id=smart-search
+                                document.getElementById("smart-search").setAttribute("style", "display:block;");
+                                //sử dụng jquery ajax get để lấy dữ liệu
+                                //khởi tạo đối tượng
+                                var obj = new XMLHttpRequest();
+                                
+                                obj.onload = function () {
+                                  //  document.getElementById("result").innerHTML = this.responseText;
+                                    $("#smart-search ul").empty();
+                                    //thêm kết quả mới lấy được từ ajax
+                                    $("#smart-search ul").append(this.responseText);
+                                }
+                                //mở đối tượng, url truyền tham số
+                                obj.open("GET", "http://localhost:5137/Products/AJaxSearch?key=" + key);
+                                //gửi dữ liệu
+                                obj.send();
+                            } else {
+                                document.getElementById("smart-search").setAttribute("style", "display:none;");
+                            }
+                        }
+                    </script>
+                
+                </div>
+                <div class="col-lg-2 col-md-3 col-12  list-category icon-hearder">
+                    <a href="/Cart" class="icon menu-item "> 
+                        <div class="icon-cart">
+
+                            <i class="fa-solid fa-cart-shopping "></i>
+                            <span>@Cart.CartQuantity(Context.Session)</span>
+                        </div>
+                        
+                    </a>
+
+                    <a href="/Account/Login" class="icon menu-item"><i class="fa-regular fa-user "></i></a>
+
+                    <a href="/Account/Register" class="icon menu-item"><i class="fa-regular fa-registered"></i></a>
+                    <a href="" class="icon menu-item"><i class="fa-regular fa-heart"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-inner container-middel  header-bottom">
+        <div class="container ">
+            <div class="row ">
+                <nav class="navbar navbar-expand-lg navbar-light  ">
+                    <a class="navbar-brand " href="#"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse content-menu-bottom col-lg-9 col-12" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF;" href="/Home">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF; " href="/News">News <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF; " href="#">Categories <span class="sr-only">(current)</span></a>
+                                <div class="sub_menu">
+                                    <ul>
+                                        <li>
+                                            <div class="btn-group dropright">
+                                                <button type="button" style="background-color:#FFFFFF; color: #000000; border:none; padding: 0;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    New Arrivals
+                                                </button>
+                                                <div class="dropdown-menu ">
+                                                    <ul>
+                                                        <li>
+                                                            <a style="color:#000000;" href="">Best Selling </a>
+                                                        </li>
+                                                        <li>
+                                                            <a style="color:#000000;" href="">Accessories</a>
+                                                        </li>
+                                                        <li>
+                                                            <a style="color:#000000;" href="">Top 100 </a>
+                                                        </li>
+                                                        <li>
+                                                            <a style="color:#000000;" href="">Best Selling </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+
+                                        </li>
+                                        <li>
+
+                                            <a style="color:#000000;" href=""> Best Selling</a>
+                                        </li>
+                                        <li>
+
+                                            <a style="color:#000000;" href=""> Accessories</a>
+                                        </li>
+                                        <li>
+
+                                            <a style="color:#000000;" href=""> Sunglas</a>
+                                        </li>
+                                        <li>
+
+                                            <a style="color:#000000;" href=""> Man's Product</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF" href="/Cart">Cart<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF " href="/Products/Categories">Shop<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF" href="#">Pages<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF " href="#">Blog<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active content-menu">
+                                <a class="nav-link" style="color: #FFFFFF " href="/Contact">Contact<span class="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

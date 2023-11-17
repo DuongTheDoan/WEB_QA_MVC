@@ -1,0 +1,147 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutTrangChu.cshtml";
+}
+@using Project.Models
+<div class="card">
+    <div class="container">
+        @if (!String.IsNullOrEmpty(Context.Request.Query["notify"]))
+        {
+            if (Context.Request.Query["notify"] == "destroy-success")
+            {
+                <h2 style="text-align:center">Đã xóa toàn bộ sản phẩm trong giỏ hàng</h2>
+            }
+            if (Context.Request.Query["notify"] == "checkout-success")
+            {
+                <h2 style="text-align:center">Đã thanh toán giỏ hàng thành công</h2>
+            }
+        }
+        @if (Model.Count > 0)
+        {
+            <section class="h-100 h-custom">
+                <div class="container h-100 py-5">
+                    <form method="post" action="/Cart/Update">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col">
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="h5">Shopping Bag</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Price Total</th>
+                                                <th scope="col"> Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (Item item_cart in Model)
+                                            {
+                                                <tr>
+                                                    <th scope="row" class="border-bottom-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="~/Upload/Products/@item_cart.ProductRecord.Photo" class="img-fluid rounded-3"
+                                                                 style="width: 120px;" alt="Book">
+                                                            <div class="flex-column ms-4">
+                                                                <p style="margin-left: 20px;" class="mb-2" href="/Products/Detail/@item_cart.ProductRecord.Id">@item_cart.ProductRecord.Name</p>
+
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <td class="align-middle border-bottom-0">
+                                                        <p class="mb-0" style="font-weight: 500;">
+                                                            $@(item_cart.ProductRecord.Price - (item_cart.ProductRecord.Price * item_cart.ProductRecord.Discount) / 100)
+                                                        </p>
+                                                    </td>
+                                                    <td class="align-middle border-bottom-0">
+                                                        <div class="d-flex flex-row">
+
+
+
+                                                            <input id="form1" class="form-control form-control-sm" type="number" name="product_@item_cart.ProductRecord.Id" value="@item_cart.Quantity" data-max="120" pattern="[0-9]*" style="line-height:30px; width:50px; border:1px solid #dddddd;">
+
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle border-bottom-0">
+                                                        <p class="mb-0" style="font-weight: 500;">$@(item_cart.Quantity * (item_cart.ProductRecord.Price - (item_cart.ProductRecord.Price * item_cart.ProductRecord.Discount) / 100))</p>
+
+                                                    </td>
+                                                    <td class="align-middle border-bottom-0" style="position:relative;">
+
+                                                        <a href="/Cart/Remove/@item_cart.ProductRecord.Id" class="btn btn-delete" title="Remove" style="position:absolute; top:73px; left:-25px;">
+                                                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-xl-3">
+                                                <div class="d-flex justify-content-between" style="font-weight: 500;">
+                                                    <p class="mb-2">Total</p>
+                                                    <p class="mb-2">$@Cart.CartTotal(Context.Session)</p>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between" style="font-weight: 500; margin-top:20px;">
+                                                    <a style="color:black" class="link-to-shop" href="/Home">Continue Shopping<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                                </div>
+
+                                                <hr class="my-4">
+
+                                                <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                                                </div>
+
+                                                <button type="button" class="btn btn-primary btn-block btn-lg">
+                                                    <div class="d-flex justify-content-between">
+                                                        <a class="btn btn-checkout" href="/Cart/CheckOut"><span style="color:white">Check out</span></a>
+
+                                                    </div>
+                                                </button>
+
+                                            </div>
+                                            <div class="col-lg-4 col-xl-3" style="margin-top:152px">
+
+
+                                                <button type="button" class="btn btn-primary btn-block btn-lg">
+                                                    <div class="d-flex justify-content-between">
+                                                        <a class="btn btn-clear" href="/Cart/Destroy"><span style="color:white">Clear Shopping Cart</span></a>
+                                                        @*<a class="btn btn-update" href="#">Update Shopping Cart</a>*@
+                                                    </div>
+                                                </button>
+
+
+
+                                            </div>
+                                            <div class="col-lg-4 col-xl-3">
+
+                                                <div class="d-flex justify-content-between" style="margin-top:152px">
+
+
+                                                    <input type="submit" class="btn btn-primary btn-block btn-lg" value="Update Shopping Cart" style="font-size:15px;padding:14.5px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </section>
+        }
+    </div>
+     
+</div>

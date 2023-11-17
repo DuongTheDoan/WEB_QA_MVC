@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap');
+*{
+    font-family: "Montserrat";
+}
+/* hearder */
+.header-search{
+    display: flex;
+}
+.header-shop{
+   
+    position: sticky;
+    z-index: 4;
+    top: 0;
+    background-color: #FFFFFF;
+}
+.container-fluid{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* .container{
+    border: 1px solid #333;
+} */
+
+.list-category{
+   margin:auto;
+}
+.icon{
+    padding: 0 20px;
+}
+.icon-hearder{
+display: flex;
+}
+.content-menu{
+    padding: 0px  20px;
+    border-radius: 5px;
+}
+.content-menu a{
+    color: #fff;
+    text-transform: capitalize;
+    font-size: 15px;
+    
+    font-weight: 500;
+    display: block;
+    position: relative;
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease;
+    transition: all .4s ease;
+
+}
+
+
+.content-menu:hover{
+    background-color: #FF9900;
+}
+.container-middel{
+    background-color: #333;
+   
+}
+.sub_menu{
+    display: none;
+    background-color: #FFFFFF;
+    position: absolute;
+    visibility: visible;
+
+}
+
+.middle-inner{
+    margin: 30px 0;
+  }
+.sub_menu ul li {
+    text-decoration: none;
+    list-style-type: none;
+    color: #FFFFFF;
+}
+
+.sub_categories li a{
+    color: #FFFFFF;
+}
+.content-menu-bottom ul li:nth-child(3):hover .sub_menu{
+
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+.sub_menu ul li:hover{
+    background-color: #FF9900;
+}
+
+
+
+/* content */
+
+
+.item-product{
+    text-align: center;
+    margin: auto;
+    padding-top:40px ;
+    display: block;
+    
+}
+.item-product li{
+     padding: 0 20px;
+}
+.item-product li  a{
+    color: #333;
+    padding: 5px;
+    font-size: 13px;
+    display: block;
+}
+.item-product li:hover a{
+    background-color: #FF9900;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+/* content */
+
+
+.form-email{
+    margin-top: 100px;
+    
+    text-align: center;
+}
+/* footter */
+.footer{
+    margin-top: 80px;
+    background-color: #333;
+    padding: 100px 0;
+    position: relative;
+    color: #FFFFFF;
+}
+
+
+.footer .about{padding-right:50px}
+.footer .single-footer h4{
+    font-size:17px;font-weight:600;
+    color:#fff;
+    text-transform:capitalize;
+    margin-bottom:30px}
+.footer .about .logo{margin-bottom:20px}
+
+.footer .about .text{
+    color:#fff;font-weight:400
+}
+.footer .about .call{
+    color:#fff;
+    margin-top:15px;
+    font-weight:400}
+.footer .about .call span{
+    display:block}
+.footer .about .call a{
+    color:#f7941d;font-size:20px;
+    font-weight:600}
+
+    .footer .links ul li{
+        display:block;
+        margin-bottom:8px}
+.footer .links ul li:last-child{margin-bottom:0}
+.footer .links ul li a{
+    color:#fff;
+    font-weight:400}
+.footer .links ul li a:hover{
+    color:#f7941d;padding-left:10px
+}
+
+
+
+
+.footer .social .contact ul li{
+    color:#fff;
+    display:block;
+    margin-bottom:4px;
+    font-weight:400}
+.footer .contact ul li:last-child{margin-bottom:0}
+.footer .social ul{margin-top:20px}
+.footer .social ul li{
+    display:inline-block;
+    margin-right:25px}
+
+
+/* main */
+.Card{
+    background-color: #F8F8F8;
+}

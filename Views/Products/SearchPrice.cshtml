@@ -1,0 +1,62 @@
+﻿@*nhan dien cac file trong thu muc Models*@
+@using System.Globalization
+@using Project.Models
+@using X.PagedList.Mvc.Core
+@*khai bao kieu du lieu cua Model*@
+@model X.PagedList.IPagedList<ItemProduct>
+@{
+    Layout = "~/Views/Shared/LayoutTrangTrong.cshtml";
+}
+<div class="col-lg-8 col-12">
+    <div class="filter-cate">
+
+        <div class="title-pr ">
+
+            <h1 class="shop-title">Tìm giá từ @String.Format("{0:C2}", ViewBag.from_price, CultureInfo.GetCultureInfo("vi-VN")) - đến @String.Format("{0:C2}", ViewBag.to_price, CultureInfo.GetCultureInfo("vi-VN"))</h1>
+
+        </div>
+        <div class="list-cate">
+            <div class="row">
+                <!-- start -->
+                @foreach (var item in Model)
+                {
+                    <div class=" col-xl-4 col-lg-4 col-md-4 col-12">
+                        <div class="single-product">
+
+                            <div>
+                                <div class="product-img">
+                                    <a href="/Products/Detail/@item.Id" title="@item.Name">
+                                        <figure><img src="~/Upload/Products/@item.Photo" alt="@item.Name" width="100%"></figure>
+                                    </a>
+                                    <div class="content-hover-pr">
+                                        <a title="Add to cart" href=""> Add to cart</a>
+                                        <a href=""><i class="fa-regular fa-heart"></i></a>
+                                        <a href=""> <i class="fa-regular fa-eye"></i></a>
+
+                                    </div>
+                                </div>
+                                <div class="product-content-text">
+                                    <h3><a href="" style="font-size:13px">@item.Name</a></h3>
+                                    <div class="product-price">
+                                        <span>$@(item.Price - (item.Price * item.Discount) / 100)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @for (int i = 1; i <= @Model.PageCount; i++)
+                {
+                    <li><a class="page-number-item" href="/Products/SearchPrice?page=@i&from_price=@ViewBag.from_price&to_price=@ViewBag.to_price">@i</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

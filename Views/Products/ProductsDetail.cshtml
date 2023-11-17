@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutTrangTrong.cshtml";
+}
+@using Project.Models
+@functions {
+    public MyDbContext db = new MyDbContext();
+    //lấy tên danh mục sản phẩm -> join 3 bảng với nhau
+    public string GetCategoryName(int _ProductId)
+    {
+        var record = (from category in db.Categories join category_product in db.CategoriesProducts on category.Id equals category_product.CategoryId join product in db.Products on category_product.ProductId equals product.Id where category_product.ProductId == _ProductId select new { category.Name }).FirstOrDefault();
+        /*
+        * select category => lấy tất cả các cột của table Categories
+        * select new { category.Name}) => chỉ lấy cột Name của table Categories
+        */
+        if (record != null)
+        {
+            return record.Name;
+        }
+        return "";
+    }
+    //lấy số sao để hiển thị
+    public int GetStar(int _ProductId, int _Star)
+    {
+        var record = db.Rating.Where(item => item.ProductId == _ProductId && item.Star == _Star).ToList();
+        if (record != null)
+        {
+            return record.Count;
+        }
+        return 0;
+    }
+    public List<ItemCategory> GetCategories()
+    {
+        List<ItemCategory> list_record = db.Categories.Where(item => item.ParentId == 0).OrderByDescending(item => item.Id).ToList();
+        return list_record;
+    }
+    public List<ItemCategory> GetSubCategories(int CategoryId)
+    {
+        List<ItemCategory> list_record = db.Categories.Where(item => item.ParentId == CategoryId).OrderByDescending(item => item.Id).ToList();
+        return list_record;
+    }
+}
+
+<div class="col-lg-8 col-12">
+    <div class="pr-details">
+        <div class="row">
+            <div class="col-lg-5 col-12">
+                <img src="~/Upload/Products/@Model.Photo" alt="product thumbnail" width="100%">
+            </div>
+            <div class="col-lg-7 col-12">
+                <div class="content-pr">
+                    <h2>@Model.Name</h2>
+                    <div class="content-pr-1">
+                        <div style="display: flex; margin-top: 20px;">
+                            <h3>Price: </h3>    <span style="color: #f7941d; padding-left: 10px;">$@(Model.Price - (Model.Price * Model.Discount) / 100)</span>
+                        </div>
+                        <div class="Quantity">
+                            <h3>Quantity: </h3>
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                                <input id="form1" min="0" name="quantity" value="1" type="number"
+                                       class="form-control form-control-sm" style="width: 50px;" />
+
+                                <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="Size">
+                            <h3>Size:</h3>
+                            <ul class="pagination pagination-sm">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">1</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            </ul>
+                        </div>
+
+
+                        <div class="Quantity">
+                            <h3>Color: </h3>
+                            <ul class="pagination pagination-sm">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">1</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            </ul>
+                        </div>
+                        <div class="bt-pr">
+                            <button type="button" class="btn btn-outline-primary"> <i class="fa-solid fa-cart-shopping "> <a href="/Cart/Buy/@Model.Id">Add to Cart</a></i>  </button>
+                            <button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-bag-shopping"></i> Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="menu_desc">
+                <ul>
+                    <li><a class="active" href="">Description</a></li>
+                    <li><a href="">Specification</a></li>
+                    <li><a href="">Review</a></li>
+
+                </ul>
+            </div>
+            <div class="pra" id="description">
+                <div class="title">
+                    Nunc egestas posuere enim, eu maximus erat posuere eget
+                </div>
+                <div>
+                    @Html.Raw(Model.Description)
+                    @Html.Raw(Model.Content)
+                </div>
+
+            </div>
+
+            <div class="list-pr-detai">
+                <div class="row">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

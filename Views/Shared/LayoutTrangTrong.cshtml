@@ -1,0 +1,430 @@
+﻿@using Project.Models
+
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+    //lay tat ca cac danh muc cha
+    public List<ItemCategory> GetCategories()
+    {
+        List<ItemCategory> list_record = db.Categories.Where(item => item.ParentId == 0).OrderByDescending(item => item.Id).ToList();
+        return list_record;
+    }
+    //lay cac danh muc con
+    public List<ItemCategory> GetSubCategories(int CategoryId)
+    {
+        List<ItemCategory> list_record = db.Categories.Where(item => item.ParentId == CategoryId).OrderByDescending(item => item.Id).ToList();
+        return list_record;
+    }
+    public string GetCategoryName(int _ProductId)
+    {
+        var record = (from category in db.Categories join category_product in db.CategoriesProducts on category.Id equals category_product.CategoryId join product in db.Products on category_product.ProductId equals product.Id where category_product.ProductId == _ProductId select new { category.Name }).FirstOrDefault();
+        /*
+        * select category => lấy tất cả các cột của table Categories
+        * select new { category.Name}) => chỉ lấy cột Name của table Categories
+        */
+        if (record != null)
+        {
+            return record.Name;
+        }
+        return "";
+    }
+    //lấy số sao để hiển thị
+    public int GetStar(int _ProductId, int _Star)
+    {
+        var record = db.Rating.Where(item => item.ProductId == _ProductId && item.Star == _Star).ToList();
+        if (record != null)
+        {
+            return record.Count;
+        }
+        return 0;
+    }
+    public List<ItemTag> GetTags()
+    {
+        List<ItemTag> list_record = db.Tags.OrderByDescending(item => item.Id).ToList();
+        return list_record;
+    }
+
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Category</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='~/Frontend/Css/Home.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'>
+    <!-- Custom fonts for this template -->
+    <link href="~/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="~/Admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    @*import file Header.cshtml vao day*@
+    @Html.Partial("~/Views/Shared/Header.cshtml")
+
+  
+    <div class="banner">
+
+
+        <div class="container content-banner">
+            <div class="col-lg-6 col-12">
+                <div class="row">
+                    <div class="text-banner">
+                        <h1 style="line-height: 50px;
+                      font-size: 47px;
+                      font-weight: 700;
+                      color: #f7941d;
+                      margin-bottom: 20px;">
+                            <span style="color: #333;font-size:20px;line-height:  50px; margin-bottom: 50px;"> UP TO 50% OFF</span>
+                            <br>
+                            Shirt For Man
+                        </h1>
+                        <p style="color: #333;
+                      margin-bottom: 35px;
+                      line-height: 25px;">
+                            Maboriosam in a nesciung eget magnae<br>
+                            dapibus disting tloctio in the find it pereri<br>
+                            odiy maboriosm
+                        </p>
+                        <button type="button" class="btn btn-primary" style="background-color: #333;">SHOP NOW</button>
+                        <img href="">
+                    </div>
+                </div>
+            </div>
+            <div class="img-banner col-lg-3 col-12">
+                <img src="~/Frontend/images/banner-1.png" width="150%">
+            </div>
+
+        </div>
+    </div>
+    <div class="small-banner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-12">
+                    <div class="single-banner">
+
+                        <div class="content-banner-small">
+                            <p>Flash Sale</p>
+                            <h3>
+                                Mid Season
+                                <br>
+                                Up To <span>40%</span> Off
+                            </h3>
+                            <a href="">Shop Now</a>
+                        </div>
+                        <img src="~/Frontend/images/mini-banner1.jpg" width="100%">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="single-banner">
+
+                        <div class="content-banner-small">
+                            <p>Flash Sale</p>
+                            <h3>
+                                Mid Season
+                                <br>
+                                Up To <span>40%</span> Off
+                            </h3>
+                            <a href="">Shop Now</a>
+                        </div>
+                        <img src="~/Frontend/images/mini-banner2.jpg" width="100%">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="single-banner">
+
+                        <div class="content-banner-small">
+                            <p>Flash Sale</p>
+                            <h3>
+                                Mid Season
+                                <br>
+                                Up To <span>40%</span> Off
+                            </h3>
+                            <a href="">Shop Now</a>
+                        </div>
+                        <img src="~/Frontend/images/mini-banner3.jpg" width="100%">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- main -->
+    <main id="main">
+        <div class="Categories-all">
+            <div class="container">
+                <div class=" row  ">
+                    @RenderBody()
+                    <div class="col-lg-4 col-12">
+                        <div class="menu-left">
+                            <div class="menu-cate">
+
+                                <h1>
+                                    All Category
+                                </h1>
+                                <ul class="list-group menu-cate-1">
+                                    @{
+                                        List<ItemCategory> list_categories = GetCategories();
+                                    }
+                                    @foreach (var item in list_categories)
+                                    {
+                                        <li class="list-group-item dropdown">
+                                            <a href="/Products/Categories/@item.Id" class="cate-link">@item.Name</a>
+                                            @{
+                                                List<ItemCategory> list_sub_categories = GetSubCategories(item.Id);
+                                            }
+                                            @if (list_sub_categories.Count > 0)
+                                            {
+                                                <span onclick="toggleNestedList(event)" class="tog">+</span>
+
+                                                <ul class=" sub-cate">
+                                                    @foreach (var item_sub in list_sub_categories)
+                                                    {
+                                                        <li class="list-group-item"><a href="/Products/Categories/@item_sub.Id" class="cate-link">@item_sub.Name</a></li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+
+                                </ul>
+
+
+                            </div>
+                            <div class="menu-pr">
+                                <div class=" col-12">
+                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+
+                                              
+                                                </div>
+                                        </div>
+                                        <a style="bottom: 20%;" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a style="bottom: 20%;" class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="menu-cate brand">
+                                <h1>
+                                    Brand
+                                </h1>
+                                <div class="dropdown list-category ">
+                                    <button class="btn btn-secondary dropdown-toggle  " style="background-color: #ffff;color: #333; border: 1px solid #C0C0C0; display:block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Ananas
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"> Ananas</a>
+                                        <a class="dropdown-item" href="#">Bitis</a>
+                                        <a class="dropdown-item" href="#">T-TEDX</a>
+                                        <a class="dropdown-item" href="#" >Hanoi Riot</a>
+                                        <a class="dropdown-item" href="#">GRIMM DC</a>
+                                    </div>
+                                </div>
+                            
+
+                            </div>
+                            <div class="widget mercado-widget filter-widget price-filter">
+                                <h2 class="widget-title">Price</h2>
+                                <div class="widget-content">
+                                    <input type="number" min="0" id="from_price" style="width:100px; border:1px solid #444444;" placeholder="from price"> - <input type="number" min="0" id="to_price" style="width:100px; border:1px solid #444444" placeholder="to price"> <button onclick="location.href='/Products/SearchPrice?from_price='+document.getElementById('from_price').value+'&to_price='+document.getElementById('to_price').value;" class="filter-submit">Filter</button>
+                                </div>
+                            </div><!-- Price-->
+                            <div class="menu-cate ">
+
+                                <h1 class="title-pr-tag">
+                                   Tags
+                                </h1>
+                                <ul class="list-group menu-cate-1">
+                                    @{
+                                        int tag_id = 0;
+                                        string tag_selected = "";
+                                        if (ViewBag.tag_id != null)
+                                        {
+                                            tag_id = ViewBag.tag_id;
+                                        }
+                                        //---
+                                        List<ItemTag> list_tags = GetTags();
+                                    }
+                                    @foreach (var item in list_tags)
+                                    {
+                                        if (tag_id == item.Id)
+                                        {
+                                            tag_selected = "actived";
+                                        }
+                                        <li class="list-group-item">
+                                            <a class="filter-link @tag_selected" href="/Products/Tag/@item.Id"><label for="checkboxes">@item.Name</label></a>
+
+                                            <input type="checkbox" name="checkboxes" value="@item.Id" />
+                                        </li>
+                                    }
+                                   
+
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!--  main-->
+
+
+    <!--  -->
+
+  
+
+    <div class="container">
+        <form class="form-email">
+            <div class="form-group">
+                <label for="exampleInputEmail1">
+                    <p>NEWSLETTER</p>
+                    Subscribe to our newsletter and get 10% off your first purchase
+                </label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Your email address">
+
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: #f7941d; color: #FFFFFF;">Subscribe</button>
+        </form>
+    </div>
+    <!--  -->
+
+    <div class="gallery ">
+        <div class=" content-footer container ">
+            <div class="row ">
+                <img class="img-ctf" src="~/Frontend/images/gallery1.jpg.webp">
+                <img class="img-ctf" src="~/Frontend/images/gallery2.jpg.webp">
+                <img class="img-ctf" src="~/Frontend/images/gallery3.jpg.webp">
+                <img class="img-ctf" src="~/Frontend/images/gallery4.jpg.webp">
+                <img class="img-ctf" src="~/Frontend/images/gallery5.jpg.webp">
+            </div>
+
+
+        </div>
+    </div>
+    <!-- footer -->
+
+    <footer class="footer">
+
+        <div class="footer-top ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-12">
+
+                        <div class="single-footer about">
+                            <div class="logo">
+                                <a href=""><img src="~/Frontend/images/logo2.png" alt="#" width="30%"></a>
+                            </div>
+                            <p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+                            <p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">+0123 456 789</a></span></p>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+
+                        <div class="single-footer links">
+                            <h4>Information</h4>
+                            <ul>
+                                <li><a href="">About Us</a></li>
+                                <li><a href="#">Faq</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+
+                        <div class="single-footer links">
+                            <h4>Customer Service</h4>
+                            <ul>
+                                <li><a href="">Payment Methods</a></li>
+                                <li><a href="">Money-back</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+
+                        <div class="single-footer social">
+                            <h4>Get In Tuch</h4>
+
+                            <div class="contact">
+                                <ul>
+                                    <li>NO. 342 -  Phu Binh Thai Nguyen .</li>
+                                    <li>084 United Kingdom.</li>
+                                    <li>info@eshop.com</li>
+                                    <li>+0123888888</li>
+                                </ul>
+                            </div>
+
+                            <ul>
+                                <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-flickr"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+  
+    <script>
+        function toggleNestedList(event) {
+            var nestedList = event.target.nextElementSibling;
+            nestedList.classList.toggle('show-list');
+        }
+    </script>
+    <script>
+        // Lấy thẻ a và checkbox
+        const a = document.querySelector('a');
+        const checkbox = document.querySelector('input[type="checkbox"]');
+
+        // Khi click vào thẻ a
+        a.addEventListener('click', () => {
+            // Cũng click vào checkbox
+            checkbox.checked = !checkbox.checked;
+        });
+    </script>
+    <!--  -->
+  @*   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> *@
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
